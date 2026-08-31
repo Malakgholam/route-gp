@@ -516,16 +516,14 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+
   overflow: hidden;
   background: #2d4a34;
 }
 
-#root {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -535,25 +533,17 @@ body {
 ========================================================= */
 
 .home-page {
-
   position: relative;
 
-  width: 100vw;
-  height: 100vh;
-
-  min-height: 700px;
+  width: 1920px;
+  height: 1080px;
+  min-height: 0;
 
   overflow: hidden;
 
-  font-family:
-    Inter,
-    Arial,
-    sans-serif;
-
+  font-family: Inter, Arial, sans-serif;
   color: #efe8d3;
-
   background: #2d4a34;
-
 }
 
 
@@ -786,27 +776,17 @@ body {
 ========================================================= */
 
 .hero {
-
   position: relative;
-
   z-index: 3;
 
-  height:
-    calc(
-      100vh -
-      82px -
-      245px
-    );
-
-  min-height: 380px;
+  height: 753px; /* 1080 - 82 topbar - 245 projects */
+  min-height: 0;
 
   display: flex;
-
   align-items: center;
 
-  padding:
-    20px 9%;
-
+  padding: 20px 9%;
+  overflow: hidden;
 }
 
 
