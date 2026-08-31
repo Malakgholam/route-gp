@@ -1,4 +1,4 @@
-<div class="home-page">
+<div class="home-page" style="overflow: hidden; box-sizing: border-box;">
 
   <!-- =====================================================
        BACKGROUND
@@ -510,7 +510,21 @@
 /* =========================================================
    RESET
 ========================================================= */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #2d4a34;
+}
 
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 * {
   box-sizing: border-box;
 }
@@ -524,7 +538,7 @@
 
   position: relative;
 
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 
   min-height: 700px;
