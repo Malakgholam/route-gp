@@ -1,926 +1,431 @@
-<div class="home-page">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memaar Al Morshedy - Collection Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================================
+       NO-SCROLL LAYOUT SETUP
+    ========================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <!-- =====================================================
-       BACKGROUND
-  ====================================================== -->
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden; /* Prevents scrollbars */
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      background-color: #070d19;
+      color: #ffffff;
+    }
 
-  <div class="background"></div>
+    .dashboard-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: 
+        radial-gradient(circle at 80% 10%, rgba(0, 168, 255, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 10% 90%, rgba(13, 43, 99, 0.6) 0%, transparent 50%),
+        linear-gradient(135deg, #070e1c 0%, #0b1c3d 50%, #071126 100%);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
+    .topbar {
+      position: relative;
+      z-index: 10;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4vw;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(11, 28, 61, 0.7);
+      backdrop-filter: blur(12px);
+      flex-shrink: 0;
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-size: clamp(12px, 1vw, 15px);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       HERO (DYNAMIC FILL - NO SPACING GAPS)
+    ========================================================= */
+    .hero {
+      position: relative;
+      z-index: 5;
+      flex: 1; /* Takes all available height between topbar and bottom section */
+      padding: 0 4vw;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Transparent Background Image Layer */
+    .hero-bg-image {
+      position: absolute;
+      inset: 0;
+      background-image: url('C:\\Users\\20128\\Desktop\\route gp\\images (3).jpg');
+      background-size: cover;
+     
+      filter: saturate(0.8) contrast(1.1);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Dark Overlay Gradient */
+    .hero-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg, 
+        rgba(7, 14, 28, 0.95) 0%, 
+        rgba(11, 28, 61, 0.75) 50%, 
+        rgba(7, 14, 28, 0.85) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 650px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(0, 168, 255, 0.15);
+      border: 1px solid rgba(0, 168, 255, 0.4);
+      border-radius: 4px;
+      color: #00a8ff;
+      font-size: clamp(8px, 0.7vw, 10px);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 3.2vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #ffffff 30%, #00a8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .description {
+      font-size: clamp(12px, 0.9vw, 14px);
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 20px;
+      max-width: 550px;
+    }
+
+    .main-navigation {
+      display: flex;
+      gap: 16px;
+    }
+
+    .main-button {
+      flex: 1;
+      max-width: 230px;
+      height: 55px;
+      padding: 0 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .main-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .main-button.primary {
+      background: linear-gradient(135deg, #00a8ff 0%, #0056b3 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(0, 168, 255, 0.3);
+    }
+
+    .main-button.secondary {
+      background: rgba(11, 28, 61, 0.6);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      backdrop-filter: blur(8px);
+    }
+
+    .button-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .primary .button-icon { background: rgba(255, 255, 255, 0.2); }
+    .secondary .button-icon { background: rgba(0, 168, 255, 0.2); }
+
+    .button-text strong { font-size: 13px; font-weight: 600; display: block; }
+
+    /* =========================================================
+       PROJECTS SECTION
+    ========================================================= */
+    .projects {
+      position: relative;
+      z-index: 5;
+      height: 34vh;
+      padding: 16px 4vw;
+      background: #ffffff;
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .projects-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .projects-title h2 {
+      font-size: clamp(14px, 1.2vw, 18px);
+      font-weight: 600;
+      color: #070e1c;
+    }
+
+    .project-count strong {
+      font-size: 18px;
+      color: #00a8ff;
+    }
+
+    .project-count span {
+      font-size: 9px;
+      color: #070e1c;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 10px;
+      height: calc(100% - 30px);
+    }
+
+    .project-card {
+      position: relative;
+      height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7, 14, 28, 0.2) 0%, rgba(7, 14, 28, 0.9) 100%);
+      z-index: 1;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      border-color: #00a8ff;
+    }
+
+    .card-top, .card-bottom {
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-number {
+      font-size: 9px;
+      font-weight: 700;
+      color: #00a8ff;
+      background: rgba(7, 14, 28, 0.75);
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+
+    .project-card h3 {
+      font-size: clamp(10px, 0.7vw, 12px);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .project-card p {
+      font-size: 7px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
   <div class="overlay"></div>
 
-  <!-- =====================================================
-       TOP BAR
-  ====================================================== -->
-
   <header class="topbar">
-
-    <div class="logo">
-
-      <div class="logo-mark">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#c9a961"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M3 21h18"></path>
-          <path d="M5 21V9l7-5 7 5v12"></path>
-          <path d="M9 21v-6h6v6"></path>
-          <path d="M9 10h.01"></path>
-          <path d="M15 10h.01"></path>
-        </svg>
-      </div>
-
-      <div class="logo-info">
-        <div class="logo-title">REAL ESTATE</div>
-        <div class="logo-subtitle">COLLECTION INTELLIGENCE</div>
-      </div>
-
+    <div class="brand-container">
+      <img src="C:\Users\20128\Desktop\route gp\images__2_-removebg-preview.png" alt="Logo" class="brand-logo-img">
+      <div class="brand-title">Memaar Al Morshedy</div>
     </div>
-
-    <div class="top-right">
-      <span class="live-dot"></span>
-      <span>PORTFOLIO OVERVIEW</span>
-    </div>
-
   </header>
 
-  <!-- =====================================================
-       HERO
-  ====================================================== -->
-
   <main class="hero">
+    <div class="hero-bg-image"></div>
+    <div class="hero-bg-overlay"></div>
 
     <div class="hero-content">
-
-      <div class="eyebrow">REAL ESTATE DEVELOPMENT</div>
-
-      <div class="gold-line"></div>
-
-      <h1>
-        Collection
-        <span>Dashboard</span>
-      </h1>
-
-      <p class="description">
-        One consolidated view of sales performance,
-        collections and cash flow across your portfolio.
-      </p>
+      <span class="badge">REAL ESTATE DEVELOPMENT</span>
+      <h1>Collection <br><span>Dashboard</span></h1>
+      <p class="description">Consolidated analytics of sales performance and collection tracking across all developments.</p>
 
       <div class="main-navigation">
-
-        <button
-          class="main-button primary"
-          type="button"
-          onclick="openDashboard('Open the Global Summary page')"
-        >
+        <button class="main-button primary" type="button" onclick="openDashboard('Open Global Summary')">
           <div class="button-icon">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#c9a961"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M4 19V5"></path>
-              <path d="M4 19h17"></path>
-              <rect x="7" y="12" width="3" height="5" rx=".5"></rect>
-              <rect x="12" y="9" width="3" height="8" rx=".5"></rect>
-              <rect x="17" y="5" width="3" height="12" rx=".5"></rect>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19V5"></path><path d="M4 19h17"></path>
+              <rect x="7" y="12" width="3" height="5"></rect>
+              <rect x="12" y="9" width="3" height="8"></rect>
             </svg>
           </div>
-
           <div class="button-text">
-            <span class="button-label">PORTFOLIO</span>
             <strong>Global Summary</strong>
-            <small>View complete portfolio performance</small>
-          </div>
-
-          <div class="button-arrow">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#c9a961"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M7 17L17 7"></path>
-              <path d="M7 7h10v10"></path>
-            </svg>
           </div>
         </button>
 
-        <button
-          class="main-button secondary"
-          type="button"
-          onclick="openDashboard('Open the Collection By Date Summary page')"
-        >
+        <button class="main-button secondary" type="button" onclick="openDashboard('Open Date Summary')">
           <div class="button-icon">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#c9a961"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00a8ff" stroke-width="2">
               <rect x="3" y="4" width="18" height="17" rx="2"></rect>
-              <path d="M16 2v4"></path>
-              <path d="M8 2v4"></path>
               <path d="M3 10h18"></path>
-              <path d="M8 14h2"></path>
-              <path d="M14 14h2"></path>
-              <path d="M8 18h2"></path>
-              <path d="M14 18h2"></path>
             </svg>
           </div>
-
           <div class="button-text">
-            <span class="button-label">ANALYSIS</span>
             <strong>Collection by Date</strong>
-            <small>Track collections over time</small>
-          </div>
-
-          <div class="button-arrow">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#c9a961"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M7 17L17 7"></path>
-              <path d="M7 7h10v10"></path>
-            </svg>
           </div>
         </button>
-
       </div>
-
     </div>
-
-    <!-- Decorative building -->
-
-    <div class="hero-visual" aria-hidden="true">
-
-      <div class="circle circle-one"></div>
-      <div class="circle circle-two"></div>
-
-      <div class="building">
-
-        <div class="building-roof"></div>
-
-        <div class="windows">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
-      </div>
-
-    </div>
-
   </main>
 
-  <!-- =====================================================
-       PROJECTS
-  ====================================================== -->
-
   <section class="projects">
-
     <div class="projects-header">
-
       <div class="projects-title">
-        <span class="section-number">01</span>
-
-        <div>
-          <h2>Explore Projects</h2>
-          <p>Choose a project to open its collection dashboard.</p>
-        </div>
+        <h2>Explore Project Portfolios</h2>
       </div>
-
       <div class="project-count">
-        <strong>08</strong>
-        <span>PROJECTS</span>
+        <strong>08</strong> <span>PROJECTS</span>
       </div>
-
     </div>
 
-    <!-- Static grid: no carousel, no animation, no duplicated cards -->
     <div class="project-grid" id="project-grid"></div>
-
   </section>
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
-
-  <footer>
-    <div class="footer-line"></div>
-    <span>2026</span>
-  </footer>
 
 </div>
 
-<style>
-
-/* =========================================================
-   RESET AND PAGE CONTAINER
-========================================================= */
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background: #2d4a34;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* =========================================================
-   FIXED 1920 x 1080 DASHBOARD
-========================================================= */
-
-.home-page {
-  position: relative;
-  width: 1920px;
-  height: 1080px;
-  min-height: 0;
-  overflow: hidden;
-  font-family: Inter, Arial, sans-serif;
-  color: #efe8d3;
-  background: #2d4a34;
-}
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
-
-.background {
-  position: absolute;
-  inset: 0;
-  background-image:
-    url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=80");
-  background-size: cover;
-  background-position: center;
-  filter: saturate(.45) contrast(1.05);
-  transform: scale(1.04);
-  animation: slowZoom 18s ease-in-out infinite alternate;
-}
-
-@keyframes slowZoom {
-  from {
-    transform: scale(1.04);
-  }
-
-  to {
-    transform: scale(1.09);
-  }
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(20, 40, 27, .98) 0%,
-      rgba(45, 74, 52, .92) 38%,
-      rgba(45, 74, 52, .68) 72%,
-      rgba(20, 40, 27, .82) 100%
-    );
-}
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar {
-  position: relative;
-  z-index: 10;
-  height: 82px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 55px;
-  border-bottom: 1px solid rgba(239, 232, 211, .15);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo-mark {
-  width: 46px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid #c9a961;
-  border-radius: 8px;
-  background: rgba(45, 74, 52, .65);
-}
-
-.logo-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .16em;
-}
-
-.logo-subtitle {
-  margin-top: 3px;
-  font-size: 8px;
-  color: #c9a961;
-  letter-spacing: .12em;
-}
-
-.top-right {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 8px;
-  color: rgba(239, 232, 211, .7);
-  letter-spacing: .12em;
-}
-
-.live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #c9a961;
-  box-shadow: 0 0 0 4px rgba(201, 169, 97, .12);
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero {
-  position: relative;
-  z-index: 3;
-  height: 753px;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  padding: 20px 9%;
-  overflow: hidden;
-}
-
-.hero-content {
-  width: 60%;
-  max-width: 720px;
-  animation: fadeUp .9s ease both;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.eyebrow {
-  color: #c9a961;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .24em;
-}
-
-.gold-line {
-  width: 45px;
-  height: 2px;
-  margin: 13px 0 20px;
-  background: #c9a961;
-}
-
-.hero h1 {
-  margin: 0;
-  font-size: 82px;
-  font-weight: 400;
-  line-height: .9;
-  letter-spacing: -.055em;
-}
-
-.hero h1 span {
-  display: block;
-  color: #c9a961;
-  font-weight: 300;
-}
-
-.description {
-  max-width: 520px;
-  margin: 22px 0 30px;
-  font-size: 14px;
-  line-height: 1.7;
-  color: rgba(239, 232, 211, .72);
-}
-
-/* =========================================================
-   MAIN NAVIGATION BUTTONS
-========================================================= */
-
-.main-navigation {
-  display: flex;
-  gap: 13px;
-}
-
-.main-button {
-  position: relative;
-  width: 245px;
-  min-height: 92px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  text-align: left;
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-
-.main-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, .25);
-}
-
-.main-button.primary {
-  color: #2d4a34;
-  background: #efe8d3;
-  border: 1px solid #c9a961;
-}
-
-.main-button.secondary {
-  color: #efe8d3;
-  background: rgba(45, 74, 52, .78);
-  border: 1px solid #c9a961;
-  backdrop-filter: blur(10px);
-}
-
-.button-icon {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9px;
-  background: #2d4a34;
-}
-
-.secondary .button-icon {
-  background: rgba(201, 169, 97, .13);
-}
-
-.button-text {
-  flex: 1;
-}
-
-.button-label {
-  display: block;
-  margin-bottom: 3px;
-  font-size: 7px;
-  font-weight: 700;
-  color: #8a7f5a;
-  letter-spacing: .14em;
-}
-
-.secondary .button-label {
-  color: #c9a961;
-}
-
-.button-text strong {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.button-text small {
-  display: block;
-  margin-top: 4px;
-  font-size: 8px;
-  opacity: .62;
-}
-
-/* =========================================================
-   HERO VISUAL
-========================================================= */
-
-.hero-visual {
-  position: absolute;
-  top: 50%;
-  right: 7%;
-  width: 350px;
-  height: 350px;
-  transform: translateY(-50%);
-}
-
-.circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border: 1px solid rgba(201, 169, 97, .28);
-  border-radius: 50%;
-}
-
-.circle-one {
-  width: 310px;
-  height: 145px;
-  transform: translate(-50%, -50%) rotate(-20deg);
-}
-
-.circle-two {
-  width: 370px;
-  height: 180px;
-  transform: translate(-50%, -50%) rotate(25deg);
-}
-
-.building {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 125px;
-  height: 215px;
-  transform: translate(-50%, -50%) perspective(500px) rotateY(-18deg);
-  background: linear-gradient(90deg, #1d3826, #426147);
-  border: 1px solid #c9a961;
-  box-shadow: 25px 30px 60px rgba(0, 0, 0, .35);
-}
-
-.building-roof {
-  height: 17px;
-  background: #c9a961;
-  opacity: .85;
-}
-
-.windows {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  padding: 25px 14px;
-}
-
-.windows span {
-  height: 18px;
-  background: rgba(239, 232, 211, .45);
-  animation: lights 4s infinite ease-in-out;
-}
-
-.windows span:nth-child(3n) {
-  animation-delay: 1.3s;
-}
-
-.windows span:nth-child(4n) {
-  animation-delay: 2.1s;
-}
-
-@keyframes lights {
-  0%,
-  100% {
-    opacity: .25;
-  }
-
-  50% {
-    opacity: .8;
-  }
-}
-
-/* =========================================================
-   PROJECT SECTION
-========================================================= */
-
-.projects {
-  position: relative;
-  z-index: 6;
-  height: 245px;
-  padding: 20px 7% 15px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(20, 40, 27, .20),
-      rgba(20, 40, 27, .90)
-    );
-  border-top: 1px solid rgba(239, 232, 211, .13);
-}
-
-.projects-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.projects-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.section-number {
-  font-size: 9px;
-  color: #c9a961;
-}
-
-.projects h2 {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 500;
-}
-
-.projects-header p {
-  margin: 3px 0 0;
-  font-size: 9px;
-  color: rgba(239, 232, 211, .55);
-}
-
-.project-count {
-  text-align: right;
-}
-
-.project-count strong {
-  font-size: 20px;
-  color: #c9a961;
-}
-
-.project-count span {
-  display: block;
-  font-size: 7px;
-  letter-spacing: .15em;
-  opacity: .55;
-}
-
-/* =========================================================
-   STATIC PROJECT GRID
-========================================================= */
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: 10px;
-  width: 100%;
-}
-
-/* No carousel animation exists in this version. */
-
-.project-card {
-  position: relative;
-  height: 112px;
-  padding: 12px;
-  overflow: hidden;
-  color: #efe8d3;
-  text-align: left;
-  cursor: pointer;
-  background: rgba(45, 74, 52, .86);
-  border: 1px solid rgba(201, 169, 97, .48);
-  border-radius: 10px;
-  backdrop-filter: blur(8px);
-  transition:
-    transform .3s ease,
-    background .3s ease,
-    border-color .3s ease,
-    box-shadow .3s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-6px);
-  background: rgba(55, 87, 62, .98);
-  border-color: #c9a961;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, .25);
-}
-
-.project-card:focus-visible,
-.main-button:focus-visible {
-  outline: 2px solid #efe8d3;
-  outline-offset: 3px;
-}
-
-.card-number {
-  position: absolute;
-  top: 9px;
-  right: 10px;
-  font-size: 8px;
-  color: #c9a961;
-}
-
-.card-icon {
-  width: 29px;
-  height: 29px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 7px;
-  background: rgba(201, 169, 97, .13);
-}
-
-.project-card h3 {
-  margin: 10px 0 4px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: #efe8d3;
-}
-
-.project-card p {
-  margin: 0;
-  font-size: 7px;
-  color: rgba(239, 232, 211, .48);
-}
-
-.card-arrow {
-  position: absolute;
-  right: 10px;
-  bottom: 9px;
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-  position: absolute;
-  z-index: 10;
-  right: 7%;
-  bottom: 12px;
-  left: 7%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 7px;
-  color: rgba(239, 232, 211, .35);
-  letter-spacing: .14em;
-}
-
-.footer-line {
-  flex: 1;
-  height: 1px;
-  background: rgba(239, 232, 211, .12);
-}
-
-</style>
-
 <script>
+  const projectsData = [
+    { name: "One Kattameya Compound", image: "images (9).jpg" },
+    { name: "Zahra North Coast", image: "images (4).jpg" },
+    { name: "Degla Landmark", image: "images (5).jpg" },
+    { name: "Skyline Katamya", image: "images (6).jpg" },
+    { name: "Degla Palms 6th October", image: "images (10).jpg" },
+    { name: "Lake Front 6th October", image: "images (7).jpg" },
+    { name: "Crystal Plaza Maadi", image: "images (11).jpg" },
+    { name: "Rihana Avenue", image: "images (8).jpg" }
+  ];
 
-/* =========================================================
-   PROJECT DATA
-========================================================= */
+  const projectGrid = document.getElementById("project-grid");
 
-const projects = [
-  "One Kattameya Compound",
-  "Zahra North Coast",
-  "Degla Landmark",
-  "Skyline Katamya Compound",
-  "Degla Palms 6 October Compound",
-  "Lake Front 6 October",
-  "Crystal Plaza Maadi Compound",
-  "Rihana Avenue"
-];
-
-const projectGrid = document.getElementById("project-grid");
-
-/* =========================================================
-   NAVIGATION HANDLER
-========================================================= */
-
-function openDashboard(message) {
-  if (typeof sendPrompt === "function") {
-    sendPrompt(message);
-    return;
+  function openDashboard(message) {
+    if (typeof sendPrompt === "function") {
+      sendPrompt(message);
+      return;
+    }
+    console.log(message);
   }
 
-  console.log(message);
-}
+  projectsData.forEach((project, index) => {
+    const card = document.createElement("div");
+    card.className = "project-card";
+    card.style.backgroundImage = `url('${project.image}')`;
 
-/* =========================================================
-   PROJECT CARD CREATION
-========================================================= */
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="card-number">${String(index + 1).padStart(2, "0")}</span>
+      </div>
+      <div class="card-bottom">
+        <h3>${project.name}</h3>
+        <p>VIEW DASHBOARD</p>
+      </div>
+    `;
 
-function createProjectCard(name, index) {
-  const card = document.createElement("button");
+    card.addEventListener("click", () => {
+      openDashboard("Open Overall page for " + project.name);
+    });
 
-  card.type = "button";
-  card.className = "project-card";
-
-  card.innerHTML = `
-    <span class="card-number">
-      ${String(index + 1).padStart(2, "0")}
-    </span>
-
-    <div class="card-icon">
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#c9a961"
-        stroke-width="1.6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M3 21h18"></path>
-        <path d="M5 21V9l7-5 7 5v12"></path>
-        <path d="M9 21v-6h6v6"></path>
-        <path d="M9 10h.01"></path>
-        <path d="M15 10h.01"></path>
-      </svg>
-    </div>
-
-    <h3>${name}</h3>
-
-    <p>PROJECT DASHBOARD</p>
-
-    <div class="card-arrow">
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#c9a961"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M7 17L17 7"></path>
-        <path d="M7 7h10v10"></path>
-      </svg>
-    </div>
-  `;
-
-  card.addEventListener("click", function () {
-    openDashboard("Open the Overall page for " + name);
+    projectGrid.appendChild(card);
   });
-
-  return card;
-}
-
-/* =========================================================
-   RENDER STATIC PROJECT LIST
-========================================================= */
-
-projects.forEach(function (projectName, index) {
-  projectGrid.appendChild(
-    createProjectCard(projectName, index)
-  );
-});
-
 </script>
+
+</body>
+</html>
