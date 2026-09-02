@@ -425,6 +425,24 @@
 
     projectGrid.appendChild(card);
   });
+
+  // Better hover handling for Power BI compatibility
+const buttons = document.querySelectorAll('.main-button');
+buttons.forEach(btn => {
+  btn.addEventListener('mouseenter', function() {
+    this.style.transform = 'translateY(-2px)';
+    this.style.boxShadow = this.classList.contains('primary') 
+      ? '0 12px 30px rgba(0, 168, 255, 0.5)' 
+      : '0 12px 30px rgba(0, 168, 255, 0.3)';
+  });
+  
+  btn.addEventListener('mouseleave', function() {
+    this.style.transform = 'translateY(0)';
+    this.style.boxShadow = this.classList.contains('primary')
+      ? '0 8px 20px rgba(0, 168, 255, 0.3)'
+      : 'none';
+  });
+});
 </script>
 
 </body>
